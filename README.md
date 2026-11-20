@@ -6,6 +6,12 @@ documented starting point they own.
 Nine .NET 8 NuGet packages, **no third-party runtime dependencies** (BCL and the ASP.NET Core shared framework only),
 239 focused tests, a sample API that wires everything, and a design dossier explaining every trade-off.
 
+## See it in action
+
+![Terminal demo of the sample API smoke test: register and log in, an idempotent replay, a reused key refused, 402 then subscribe then 200, notifications in the inbox, logout](docs/media/smoke-demo.gif)
+
+Real output of `samples/smoke.sh` against `samples/Blocks.Sample.Api` on port 5199 (invented demo user, fake payment provider). Full-quality video: [docs/media/smoke-demo.mp4](docs/media/smoke-demo.mp4). Re-record with the API running: `python3 samples/demo/capture_smoke.py && cd samples/demo && npm install && node terminal.mjs smoke-session.json ../../docs/media smoke-demo`.
+
 ## Design at a glance
 Each block is a small module with **ports** (interfaces it owns) and thread-safe **in-memory adapters** driven by
 `TimeProvider`. You compose blocks into a modular monolith and replace adapters with your own (database, email

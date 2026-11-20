@@ -1,0 +1,64 @@
+{
+ "title": "Agentic Building Blocks: sample API smoke test",
+ "prompt": "~/blocks $",
+ "width": 1180,
+ "height": 720,
+ "fontSize": 14,
+ "highlight": [
+  [
+   "^\\$ ",
+   "#7ec4ff"
+  ],
+  [
+   "Idempotency-Replayed: true",
+   "#e8d48b"
+  ],
+  [
+   "-> 4\\d\\d|  me -> 401",
+   "#f28b82"
+  ],
+  [
+   "-> 2\\d\\d|^HTTP/1.1 2|^Healthy|^ - ",
+   "#7fd4a8"
+  ]
+ ],
+ "steps": [
+  {
+   "caption": "Sample API on :5199: health, register, log in (access + refresh token)",
+   "out": "$ GET /health/ready\nHTTP/1.1 200 OK\nX-Correlation-Id: 7db3090901ad684a11d40f547cb3da2c\nHealthy\n\n$ POST /auth/register\n{\"id\":\"3bee3123df5f4e3c88fae3ee8d1b3263\",\"email\":\"smoke-1795203360@example.com\",\"roles\":[\"user\"],\"tenantId\":null}  -> 201\n\n$ POST /auth/login\ntokenType=Bearer expiresIn=900 accessToken=CfDJ8MkT_vbG5WVI... refreshToken=present\n\n$ GET /auth/me\n{\"id\":\"3bee3123df5f4e3c88fae3ee8d1b3263\",\"email\":\"smoke-1795203360@example.com\",\"roles\":[\"user\"],\"tenantId\":null}  -> 200\n",
+   "clear": false,
+   "cmd": "bash samples/smoke.sh",
+   "hold": 3600
+  },
+  {
+   "caption": "Idempotency: the same key and body replays the stored response",
+   "out": "$ POST /demo/orders (Idempotency-Key: order-1) #1\nHTTP/1.1 201 Created\nLocation: /demo/orders/ord_70ec4c6c6250\n{\"orderId\":\"ord_70ec4c6c6250\",\"total\":\"7.50 EUR\"}\n\n$ POST /demo/orders (same key, same body) #2\nHTTP/1.1 201 Created\nLocation: /demo/orders/ord_70ec4c6c6250\nIdempotency-Replayed: true\n{\"orderId\":\"ord_70ec4c6c6250\",\"total\":\"7.50 EUR\"}\n",
+   "clear": true,
+   "hold": 3600
+  },
+  {
+   "caption": "Same key with a different body is refused (409); no key is a 400",
+   "out": "$ POST /demo/orders (same key, different body)\n{\"type\":\"https://tools.ietf.org/html/rfc9110#section-15.5.10\",\"title\":\"Conflict\",\"status\":409,\"detail\":\"This idempotency key was already used with a different request.\",\"instance\":\"/demo/orders\",\"code\":\"idempotency.key_reused\",\"traceId\":\"00-6fee33a3ae93b1c186be24f996eeb033-d8058a438a2531ff-00\",\"correlationId\":\"6fee33a3ae93b1c186be24f996eeb033\"}  -> 409\n\n$ POST /demo/orders (no key)\n{\"type\":\"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\"title\":\"Bad Request\",\"status\":400,\"detail\":\"The Idempotency-Key header is required for this request.\",\"instance\":\"/demo/orders\",\"code\":\"idempotency.key_missing\",\"traceId\":\"00-6c4937efc244640062823921fcfddd00-ef49f4d6a957ca6c-00\",\"correlationId\":\"6c4937efc244640062823921fcfddd00\"}  -> 400\n",
+   "clear": true,
+   "hold": 3600
+  },
+  {
+   "caption": "Entitlements: no plan gives 402, checkout + signed webhook, then 200",
+   "out": "$ GET /media/hd (no subscription)\n{\"title\":\"A subscription or payment is required.\",\"status\":402,\"detail\":\"Your plan does not include 'hd'. Subscribe or renew to continue.\",\"instance\":\"/media/hd\",\"code\":\"subscriptions.entitlement_required\",\"entitlement\":\"hd\",\"renewUrl\":\"/subscriptions/plans\",\"traceId\":\"00-451690260a6d3c67aee58d9ce3fc65b3-3f4128da59bd36e3-00\",\"correlationId\":\"451690260a6d3c67aee58d9ce3fc65b3\"}  -> 402\n\n$ POST /subscriptions/checkout {plus}\n{\"sessionId\":\"cs_700e092f921f4473b207e70c404bd8a5\",\"url\":\"https://pay.example.com/checkout/cs_700e092f921f4473b207e70c404bd8a5\",\"expiresAt\":\"2026-11-20T20:36:02.2657442+00:00\"}\n\n$ POST /subscriptions/dev/checkout/{session}/complete (signed fake webhook)\n{\"webhook\":{\"eventId\":\"evt_6e3a3f3db2d34500847647d62d46c237\",\"duplicate\":false},\"subscription\":{\"id\":\"sub_ed893e566c5b41d0a96b7ca8b461abee\",\"planId\":\"plus\",\"status\":\"Active\",\"currentPeriodEnd\":\"2026-12-20T19:36:02.4450376+00:00\",\"trialEndsAt\":null,\"cancelAtPeriodEnd\":false,\"entitlements\":[\"hd\",\"offline\",\"sd\"]}}  -> 200\n\n$ GET /media/hd (subscribed)\n{\"stream\":\"hd-demo-stream\",\"quality\":\"1080p\"}  -> 200\n",
+   "clear": true,
+   "hold": 3600
+  },
+  {
+   "caption": "Notifications: delivered through the outbox into the in-app inbox",
+   "out": "$ POST /demo/notify-me\n{\"notificationId\":\"e007b19b-c202-476d-b905-052b683cdf52\"}  -> 202\n\n$ GET /notifications/inbox/unread-count\n{\"unread\":3}  -> 200\n\n$ GET /notifications/inbox (titles)\n - general | Welcome to the demo\n - billing | Your subscription is Active\n - orders | Order received\n",
+   "clear": true,
+   "hold": 3600
+  },
+  {
+   "caption": "Logout revokes the access token: /auth/me is now 401",
+   "out": "$ POST /auth/logout then GET /auth/me\n  logout -> 204\n  me -> 401\n",
+   "clear": true,
+   "hold": 3600
+  }
+ ]
+}
