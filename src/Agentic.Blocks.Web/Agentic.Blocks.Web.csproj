@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Agentic.Blocks.Web</PackageId>
+    <Description>ASP.NET Core defaults for Agentic building blocks: ProblemDetails mapped from Error types, X-Correlation-Id middleware, /health/live and /health/ready, rate-limit policies and a Result-to-IResult helper for minimal APIs.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="../Agentic.Blocks.Core/Agentic.Blocks.Core.csproj" />
+  </ItemGroup>
+</Project>

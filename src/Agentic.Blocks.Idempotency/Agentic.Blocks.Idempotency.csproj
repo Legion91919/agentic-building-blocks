@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Agentic.Blocks.Idempotency</PackageId>
+    <Description>Idempotency-Key support for minimal APIs: .RequireIdempotencyKey() replays the stored response for a retried request, returns 409 when a key is reused with a different body and 400 when the key is missing. Pluggable store with a thread-safe in-memory adapter.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="../Agentic.Blocks.Core/Agentic.Blocks.Core.csproj" />
+  </ItemGroup>
+</Project>

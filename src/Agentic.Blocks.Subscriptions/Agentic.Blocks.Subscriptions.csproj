@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Agentic.Blocks.Subscriptions</PackageId>
+    <Description>Subscriptions for minimal APIs: plans with entitlements, a time- and payment-driven state machine (Trialing, Active, PastDue, Cancelled, Expired), a payment-provider port with a fake hosted checkout and signed webhooks, webhook idempotency by event id, and .RequireEntitlement() returning 402 ProblemDetails.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="../Agentic.Blocks.Core/Agentic.Blocks.Core.csproj" />
+    <ProjectReference Include="../Agentic.Blocks.Web/Agentic.Blocks.Web.csproj" />
+  </ItemGroup>
+</Project>

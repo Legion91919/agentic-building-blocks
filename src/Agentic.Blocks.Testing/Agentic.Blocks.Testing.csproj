@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Agentic.Blocks.Testing</PackageId>
+    <Description>Test helpers for Agentic building blocks: a ManualTimeProvider with working timers and a loopback Kestrel host for real HTTP tests without extra packages.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+</Project>

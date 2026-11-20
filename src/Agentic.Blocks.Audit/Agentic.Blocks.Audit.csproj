@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Agentic.Blocks.Audit</PackageId>
+    <Description>Append-only audit log (actor, action, entity, reason, time, correlation id) with a SHA-256 hash chain for tamper evidence, queries by entity and actor, and no update or delete API.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="../Agentic.Blocks.Core/Agentic.Blocks.Core.csproj" />
+    <ProjectReference Include="../Agentic.Blocks.Web/Agentic.Blocks.Web.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Agentic.Blocks.Audit.Tests" />
+  </ItemGroup>
+</Project>

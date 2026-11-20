@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Agentic.Blocks.Notifications</PackageId>
+    <Description>User notifications over in-app (inbox, unread count, mark-read, live SignalR push), email and SMS ports, with per-category channel preferences. Dispatched through the outbox so a failing channel never blocks the caller or the other channels.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="../Agentic.Blocks.Core/Agentic.Blocks.Core.csproj" />
+    <ProjectReference Include="../Agentic.Blocks.Web/Agentic.Blocks.Web.csproj" />
+    <ProjectReference Include="../Agentic.Blocks.Outbox/Agentic.Blocks.Outbox.csproj" />
+  </ItemGroup>
+</Project>

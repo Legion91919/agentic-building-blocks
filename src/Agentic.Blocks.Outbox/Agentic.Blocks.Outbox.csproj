@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Agentic.Blocks.Outbox</PackageId>
+    <Description>Transactional outbox: stage messages in the same unit of work as your change, then a background dispatcher delivers them to typed handlers with retry, exponential back-off and a dead-letter state. At-least-once delivery.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="../Agentic.Blocks.Core/Agentic.Blocks.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Agentic.Blocks.Outbox.Tests" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Agentic.Blocks.Core</PackageId>
+    <Description>Result and Error types, a Money value object, cursor pagination, domain event and correlation abstractions, and the telemetry naming convention shared by every Agentic building block. No dependencies beyond the BCL.</Description>
+  </PropertyGroup>
+</Project>

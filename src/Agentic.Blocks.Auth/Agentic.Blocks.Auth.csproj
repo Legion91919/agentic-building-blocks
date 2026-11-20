@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Agentic.Blocks.Auth</PackageId>
+    <Description>Email and password login for minimal APIs on the built-in BearerToken handler: PBKDF2-SHA256 hashing (600,000 iterations, versioned, rehash on login), lockout, refresh, logout via security stamp, roles, an optional tenant claim and a user-store port for swapping in your own identity source.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="../Agentic.Blocks.Core/Agentic.Blocks.Core.csproj" />
+    <ProjectReference Include="../Agentic.Blocks.Web/Agentic.Blocks.Web.csproj" />
+  </ItemGroup>
+</Project>
