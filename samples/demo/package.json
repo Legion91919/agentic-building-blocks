@@ -3,5 +3,5 @@
   "private": true,
   "type": "module",
   "description": "Replays captured smoke-test output as a terminal-styled MP4 + GIF.",
-  "devDependencies": { "playwright": "1.63.0" }
+  "devDependencies": { "playwright": "1.65.1" }
 }
